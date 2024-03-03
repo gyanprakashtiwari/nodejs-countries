@@ -32,9 +32,8 @@ app.use('/orders', orderRoutes);
 app.use('/countries', countryRoutes);
 
 app.use((req, res, next)=>{
-    const error = new Error('Not Found');
-    error.status=404;
-    next(error);
+    res.status(200).send('<h1>Countries Assignement API setup completed</h1>');
+    next();
 })
 
 app.use((error,req, res, next)=>{
