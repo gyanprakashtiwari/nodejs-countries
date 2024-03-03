@@ -6,24 +6,36 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/order')
+const countryRoutes = require('./api/routes/country')
 
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended : false}));
-app.use(bodyParser.json());
 
-app.use((req, res)=>{
+// CORS Error Handling
+app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin','*');
     res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Authorization');
     if (req.method === 'OPTIONS'){
         res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, GET, DELETE');
         return res.status(200).json({});
     }
+    next();
 });
 
+mongoose.connect(
+    process.env.DATABASE_URI
+    // {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true
+    // }
+);
+mongoose.Promise = global.Promise;
+
+app.use(morgan('dev'));
+app.use(express.json()); // Use built-in express JSON middleware
 
 // Routes 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/countries', countryRoutes);
 
 app.use((req, res, next)=>{
     const error = new Error('Not Found');
