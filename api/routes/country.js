@@ -16,7 +16,6 @@ router.get("/", (req, res, next) => {
         return res.status(400).json({ message: "Invalid page number. Page number must be greater than or equal to 1." });
     }
 
-    // Construct the sorting object based on the sortParams
     const sortOptions = {};
     sortParams.forEach(param => {
         const [field, order] = param.split("_");
@@ -25,7 +24,6 @@ router.get("/", (req, res, next) => {
     });
 
 
-    // Perform two queries to get the total count and paginated documents with sorting
     const countQuery = Country.countDocuments();
     const dataQuery = Country.find()
         .sort(sortOptions)

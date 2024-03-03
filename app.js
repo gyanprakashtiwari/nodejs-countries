@@ -9,7 +9,6 @@ const orderRoutes = require('./api/routes/order')
 const countryRoutes = require('./api/routes/country')
 
 
-// CORS Error Handling
 app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin','*');
     res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -22,17 +21,12 @@ app.use((req, res, next)=>{
 
 mongoose.connect(
     process.env.DATABASE_URI
-    // {
-    //     useNewUrlParser: true,
-    //     useUnifiedTopology: true
-    // }
 );
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
-app.use(express.json()); // Use built-in express JSON middleware
+app.use(express.json()); 
 
-// Routes 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/countries', countryRoutes);
